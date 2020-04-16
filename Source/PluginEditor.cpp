@@ -63,7 +63,12 @@ void CoronameterAudioProcessorEditor::timerCallback()
 {
 	String peakL = String(20 * log10(processor.peakL), 2);
 	String peakR = String(20 * log10(processor.peakR), 2);
+
+	String RMSL = String(20 * log10(sqrt(processor.RMSL.getSum() / processor.RMSL.getDataSize())));
+	String RMSR = String(20 * log10(sqrt(processor.RMSR.getSum() / processor.RMSR.getDataSize())));
+	
 	peakLabel->setText("PeakL :" + peakL + " dB " + "peakR: " + peakR + " dB", dontSendNotification);
+	RMSLabel->setText("RMSL :" + RMSL + " dB " + "RMSR: " + RMSR + " dB", dontSendNotification);
 }
 
 void CoronameterAudioProcessorEditor::paint(Graphics& g)

@@ -99,6 +99,8 @@ void CoronameterAudioProcessor::prepareToPlay(double sampleRate, int samplesPerB
 {
 	peakL = 0;
 	peakR = 0;
+	RMSL.dataInit (sampleRate, 1.0f);
+	RMSR.dataInit (sampleRate, 1.0f);
 }
 
 void CoronameterAudioProcessor::releaseResources()
@@ -136,13 +138,22 @@ void CoronameterAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
+	// Ciclo para Canales
 	for (int channel = 0; channel < totalNumInputChannels; ++channel)
 	{
 		auto* channelData = buffer.getWritePointer(channel);
-		
+		// Ciclo para muestras
 		for (auto sample = 0; sample < buffer.getNumSamples(); ++sample)
 		{
+			if (channel == 0)
+			{
+				RMSL.setData(channelData[sample]);
+			}
+			else if (channel == 1)
+			{
+				RMSR.setData(channelData[sample]);
+			}
+
 			if (std::abs(channelData[sample]) > peakL && channel == 0)
 			{
 				peakL = std::abs(channelData[sample]);
