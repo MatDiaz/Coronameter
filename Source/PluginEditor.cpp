@@ -19,16 +19,19 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
 	addAndMakeVisible(RMSLabel.get());
 	RMSLabel->setText("RMS = 0 dB", dontSendNotification);
 	RMSLabel->setColour(Label::ColourIds::textColourId, Colour(Colours::white));
+	RMSLabel->setJustificationType(Justification::centred);
 	
 	peakLabel.reset(new Label("Peak = 0 dB"));
 	addAndMakeVisible(peakLabel.get());
 	peakLabel->setText("Peak = 0 dB", dontSendNotification);
 	peakLabel->setColour(Label::ColourIds::textColourId, Colour(Colours::white));
+	peakLabel->setJustificationType(Justification::centred);
 
 	crestLabel.reset(new Label("Crest Factor = 0 dB"));
 	addAndMakeVisible(crestLabel.get());
 	crestLabel->setText("Crest Factor = 0 dB", dontSendNotification);
 	crestLabel->setColour(Label::ColourIds::textColourId, Colour(Colours::white));
+	crestLabel->setJustificationType(Justification::centred);
 
 	actualizaBoton.reset(new TextButton());
 	addAndMakeVisible(actualizaBoton.get());
@@ -40,15 +43,20 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
 	frequencySpectrum.reset(new FrequencySpectrumClass());
 	addAndMakeVisible(frequencySpectrum.get());
 
+	// Medidor
+	leftMeter.reset(new Meter());
+	addAndMakeVisible(leftMeter.get());
+
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
 	setSize(1000, 700);
 
-	frequencySpectrum->setBounds(0, 0, 1000, 500);
-	RMSLabel->setBounds(0, 520, 1000, 60);
-	peakLabel->setBounds(0, 580, 1000, 60);
-	crestLabel->setBounds(0, 660, 1000, 60);
-	actualizaBoton->setBounds(0, 580, 1000, 60);
+	frequencySpectrum->setBounds(0, 0, 700, 600);
+	RMSLabel->setBounds(700, 0, 300, 50);
+	peakLabel->setBounds(700, 50, 300, 50);
+	actualizaBoton->setBounds(700, 50, 300, 50);
+	crestLabel->setBounds(700, 600, 300, 50);
+	leftMeter->setBounds(750, 120, 75, 460);
 
 	startTimerHz(30);
 }
@@ -67,6 +75,8 @@ void CoronameterAudioProcessorEditor::timerCallback()
 	String RMSL = String(20 * log10(sqrt(processor.RMSL.getSum() / processor.RMSL.getDataSize())));
 	String RMSR = String(20 * log10(sqrt(processor.RMSR.getSum() / processor.RMSR.getDataSize())));
 	
+	leftMeter->setAmp(processor.peakL);
+
 	peakLabel->setText("PeakL :" + peakL + " dB " + "peakR: " + peakR + " dB", dontSendNotification);
 	RMSLabel->setText("RMSL :" + RMSL + " dB " + "RMSR: " + RMSR + " dB", dontSendNotification);
 }

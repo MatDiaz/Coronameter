@@ -58,6 +58,11 @@ public:
 		return dataSize;
 	}
 
+	float* getArrayOfData()
+	{
+		return Data.getRawDataPointer();
+	}
+
 private:
 	int counter;
 	bool first;

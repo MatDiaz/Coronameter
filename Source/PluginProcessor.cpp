@@ -99,8 +99,8 @@ void CoronameterAudioProcessor::prepareToPlay(double sampleRate, int samplesPerB
 {
 	peakL = 0;
 	peakR = 0;
-	RMSL.dataInit (sampleRate, 1.0f);
-	RMSR.dataInit (sampleRate, 1.0f);
+	RMSL.dataInit (sampleRate, 3.0f);
+	RMSR.dataInit (sampleRate, 3.0f);
 }
 
 void CoronameterAudioProcessor::releaseResources()

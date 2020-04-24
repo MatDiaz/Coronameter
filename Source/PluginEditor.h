@@ -13,6 +13,7 @@
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
 #include "FrequencySpectrumClass.h"
+#include "Meter.h"
 
 //==============================================================================
 /**
@@ -35,7 +36,8 @@ private:
 	std::unique_ptr<Label> RMSLabel, peakLabel, crestLabel;
 	std::unique_ptr<FrequencySpectrumClass> frequencySpectrum;
 	std::unique_ptr<TextButton> actualizaBoton;
-
+	std::unique_ptr<Meter> leftMeter;
+	int c = 0;
     CoronameterAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CoronameterAudioProcessorEditor)
