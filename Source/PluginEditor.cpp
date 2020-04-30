@@ -47,6 +47,8 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
 	leftMeter.reset(new Meter());
 	addAndMakeVisible(leftMeter.get());
 
+	rightMeter.reset(new Meter());
+	addAndMakeVisible(rightMeter.get());
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
 	setSize(1000, 700);
@@ -57,6 +59,7 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
 	actualizaBoton->setBounds(700, 50, 300, 50);
 	crestLabel->setBounds(700, 600, 300, 50);
 	leftMeter->setBounds(750, 120, 75, 460);
+	rightMeter->setBounds(845, 120, 75, 460);
 
 	startTimerHz(30);
 }
@@ -69,13 +72,14 @@ CoronameterAudioProcessorEditor::~CoronameterAudioProcessorEditor()
 //==============================================================================
 void CoronameterAudioProcessorEditor::timerCallback()
 {
-	String peakL = String(20 * log10(processor.peakL), 2);
-	String peakR = String(20 * log10(processor.peakR), 2);
+	String peakL = String(20 * log10(processor.peakL), 1);
+	String peakR = String(20 * log10(processor.peakR), 1);
 
-	String RMSL = String(20 * log10(sqrt(processor.RMSL.getSum() / processor.RMSL.getDataSize())));
-	String RMSR = String(20 * log10(sqrt(processor.RMSR.getSum() / processor.RMSR.getDataSize())));
+	String RMSL = String(20 * log10(sqrt(processor.RMSL.getSum() / processor.RMSL.getDataSize())), 1);
+	String RMSR = String(20 * log10(sqrt(processor.RMSR.getSum() / processor.RMSR.getDataSize())), 1);
 	
 	leftMeter->setAmp(processor.peakL);
+	rightMeter->setAmp(processor.peakR);
 
 	peakLabel->setText("PeakL :" + peakL + " dB " + "peakR: " + peakR + " dB", dontSendNotification);
 	RMSLabel->setText("RMSL :" + RMSL + " dB " + "RMSR: " + RMSR + " dB", dontSendNotification);

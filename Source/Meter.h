@@ -23,24 +23,48 @@ public:
 	void paint(Graphics& g) override
 	{
 		g.addTransform(AffineTransform::verticalFlip(getHeight()));
+
+		// Rectangulo Medidor
 		g.setColour(Colours::white);
-		g.drawRect(0, 0, getWidth(), getHeight());
+		g.drawRect(0, 0, getWidth(), getHeight() * 0.93);
 
-		uint8 R2, G2, B2;
-		R2 = 255 * ampl; G2 = 255 * (1 - ampl); B2 = 0;
+		g.setColour(Colour(Colours::green));
+		g.fillRect(1, 1, getWidth() - 2, discretize(Decibels::gainToDecibels(ampl)));
 
-		g.setColour(Colour(R2, G2, B2));
-		g.fillRect(1, 1, getWidth() - 2, (int)abs(getHeight()* ampl));
+		// Rectangulo Clipping
+		Colour colorClip;
+		colorClip = clip == true ? Colours::red : Colours::darkred;
+
+		g.setColour(colorClip);
+		g.fillRect(0, getHeight()*0.95, getWidth(), getHeight() * 0.05);
+	}
+
+	void mouseDown(const MouseEvent& event) override
+	{
+		if (event.mods.isLeftButtonDown())
+		{
+			clip = false;
+		}
 	}
 
 	void setAmp(float newAmp)
 	{
 		ampl = newAmp;
+		if (ampl >= 1.0f) { clip = true; }
 		repaint();
+	}
+
+	int discretize(float dBValue)
+	{
+		dBValue = dBValue < -80 ? -80 : dBValue;
+		dBValue = dBValue > 0 ? 0 : dBValue;
+		return (getHeight() * 0.93 - 2)-((dBValue / -80) * (getHeight() * 0.93 - 2));
 	}
 
 	void resized() override {}
 
 private:
 	float ampl;
+	bool clip = false;
 };
+ 

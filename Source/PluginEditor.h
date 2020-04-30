@@ -36,7 +36,7 @@ private:
 	std::unique_ptr<Label> RMSLabel, peakLabel, crestLabel;
 	std::unique_ptr<FrequencySpectrumClass> frequencySpectrum;
 	std::unique_ptr<TextButton> actualizaBoton;
-	std::unique_ptr<Meter> leftMeter;
+	std::unique_ptr<Meter> leftMeter, rightMeter;
 	int c = 0;
     CoronameterAudioProcessor& processor;
 

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="AgsSml" name="Coronameter" projectType="audioplug" jucerVersion="5.4.5">
+<JUCERPROJECT id="AgsSml" name="Coronameter" projectType="audioplug" jucerVersion="5.4.5"
+              pluginFormats="buildVST3">
   <MAINGROUP id="xafu2T" name="Coronameter">
     <GROUP id="{5DF4388C-E33C-BC6D-F8B3-E476D03261EC}" name="Source">
       <FILE id="veWtE6" name="Meter.h" compile="0" resource="0" file="Source/Meter.h"/>
