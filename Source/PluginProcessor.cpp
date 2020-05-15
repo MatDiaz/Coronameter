@@ -26,6 +26,7 @@ CoronameterAudioProcessor::CoronameterAudioProcessor()
 {
 	peakL = 0;
 	peakR = 0;
+	hold = 0.70;
 }
 
 CoronameterAudioProcessor::~CoronameterAudioProcessor()
@@ -164,6 +165,8 @@ void CoronameterAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 			}
 		}
     }
+	peakL *= hold;
+	peakR *= hold;
 }
 
 //==============================================================================

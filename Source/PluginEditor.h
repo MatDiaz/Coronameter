@@ -36,8 +36,8 @@ private:
 	std::unique_ptr<Label> RMSLabel, peakLabel, crestLabel;
 	std::unique_ptr<FrequencySpectrumClass> frequencySpectrum;
 	std::unique_ptr<TextButton> actualizaBoton;
-	std::unique_ptr<Meter> leftMeter, rightMeter;
-	int c = 0;
+	std::unique_ptr<Meter> leftMeter, rightMeter, leftPeak, rightPeak;
+	std::unique_ptr<Slider> peakTime, RMSTime;
     CoronameterAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CoronameterAudioProcessorEditor)

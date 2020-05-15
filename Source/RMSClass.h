@@ -21,13 +21,17 @@ public:
 		counter = 0;
 		sum = 0;
 		first = true;
+		Fs = 44100;
+		timeInt = 3000;
+		sampInt = (timeInt / 1000) * Fs;
 	}
 	~RMSClass() {}
 
 
 	void dataInit(float sampleRate, float segundos)
 	{
-		dataSize = (int)(sampleRate * segundos);
+		Fs = sampleRate;
+		dataSize = (int)(Fs * 5);
 
 		Data.resize(dataSize);
 
@@ -44,8 +48,18 @@ public:
 		sum += powf(sample, 2.0);
 
 		counter++;
-		if (counter >= dataSize) 
+		if (counter >= sampInt) 
 		{ counter = 0; }
+	}
+
+	void setTime(float seconds)
+	{
+		sampInt = (seconds / 1000) * Fs;
+	}
+
+	float getSampTime()
+	{
+		return sampInt;
 	}
 
 	float getSum()
@@ -66,7 +80,7 @@ public:
 private:
 	int counter;
 	bool first;
-	float sum;
+	float sum, timeInt, sampInt, Fs;
 
 	int dataSize;
 	Array<float> Data;

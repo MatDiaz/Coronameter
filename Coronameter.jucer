@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="AgsSml" name="Coronameter" projectType="audioplug" jucerVersion="5.4.5"
-              pluginFormats="buildVST3">
+              pluginFormats="buildStandalone">
   <MAINGROUP id="xafu2T" name="Coronameter">
     <GROUP id="{5DF4388C-E33C-BC6D-F8B3-E476D03261EC}" name="Source">
+      <FILE id="RuHapG" name="NewComponent(2).cpp" compile="1" resource="0"
+            file="Source/NewComponent(2).cpp"/>
+      <FILE id="Cp2aac" name="NewComponent(2).h" compile="0" resource="0"
+            file="Source/NewComponent(2).h"/>
       <FILE id="veWtE6" name="Meter.h" compile="0" resource="0" file="Source/Meter.h"/>
       <FILE id="aF0B6G" name="RMSClass.h" compile="0" resource="0" file="Source/RMSClass.h"/>
       <FILE id="Czo1oe" name="FrequencySpectrumClass.h" compile="0" resource="0"
