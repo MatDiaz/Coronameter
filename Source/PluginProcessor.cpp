@@ -93,6 +93,7 @@ const String CoronameterAudioProcessor::getProgramName (int index)
 
 void CoronameterAudioProcessor::changeProgramName (int index, const String& newName)
 {
+
 }
 
 //==============================================================================

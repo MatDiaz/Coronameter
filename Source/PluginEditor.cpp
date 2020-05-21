@@ -33,7 +33,9 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
 	RMSTime->setColour(Slider::trackColourId, Colour(Colours::darkgrey));
 	RMSTime->setNumDecimalPlacesToDisplay(0);
 	RMSTime->onValueChange = [this]
-	{
+	{	
+		processor.RMSL.resetSum();
+		processor.RMSR.resetSum();
 		processor.RMSL.setTime(RMSTime->getValue());
 		processor.RMSR.setTime(RMSTime->getValue());
 	};

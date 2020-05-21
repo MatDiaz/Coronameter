@@ -77,6 +77,16 @@ public:
 		return Data.getRawDataPointer();
 	}
 
+	float getRMS()
+	{
+		return sqrt(getSum() / getSampTime());
+	}
+
+	void resetSum()
+	{
+		sum = 0;
+	}
+
 private:
 	int counter;
 	bool first;
