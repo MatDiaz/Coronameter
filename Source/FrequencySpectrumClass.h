@@ -20,8 +20,6 @@ class FrequencySpectrumClass    : public Component
 public:
     FrequencySpectrumClass()
     {
-        // In your constructor, you should add any child components, and
-        // initialise any special settings that your component needs.
 
     }
 
@@ -31,16 +29,46 @@ public:
 
     void paint (Graphics& g) override
     {
+		DBG("H");
 		g.fillAll(Colour(Colours::white));
+
+		Path wavePath;
+		wavePath.startNewSubPath(0.0f, getHeight()/2);
+		if (init)
+		{
+			for (auto i = 0; i < getWidth(); ++i)
+			{
+				wavePath.lineTo (i, getHeight() / 2);
+			}
+		}
+		else
+		{
+			for (auto i = 0; i < getWidth(); ++i)
+			{
+				wavePath.lineTo (i, (getHeight() / 2) - (data[i] * getHeight()/2));
+			}
+		}
+		g.setColour(Colours::black);
+		g.strokePath(wavePath, PathStrokeType(1.0));
     }
 
     void resized() override
     {
-        // This method is where you should set the bounds of any child
-        // components that your component contains..
 
     }
 
+	void receiveArray(float* waveForm [], int size)
+	{	
+		data = *waveForm;
+		arraySize = size;
+		init = false;
+		repaint();
+	}
+
 private:
+	float* data;
+	int arraySize;
+	bool init = true;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (FrequencySpectrumClass)
 };

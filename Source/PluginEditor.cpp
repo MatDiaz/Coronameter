@@ -85,7 +85,7 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
     // editor's size to whatever you need it to be.
 	setSize(1000, 700);
 
-	frequencySpectrum->setBounds(0, 0, 700, 600);
+	frequencySpectrum->setBounds(0, 0, 700, 300);
 	// Label
 	RMSLabel->setBounds(700, 0, 300, 50);
 	peakLabel->setBounds(700, 50, 300, 50);
