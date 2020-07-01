@@ -57,6 +57,9 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 	float peakL, peakR;
+	int cont;
+	Array<float> bufferC;
+	std::atomic<bool> lleno;
 	std::atomic<float> hold;
 	RMSClass RMSL, RMSR;
 private:

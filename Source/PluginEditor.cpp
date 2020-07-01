@@ -13,7 +13,7 @@
 
 //==============================================================================
 CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAudioProcessor& p)
-    : AudioProcessorEditor (&p), processor (p)
+    : AudioProcessorEditor (&p), processor (p), spectrumMagnitude(11, 2048)
 {
 	peakTime.reset(new Slider());
 	addAndMakeVisible(peakTime.get());
@@ -65,8 +65,7 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
 	actualizaBoton->onClick = [this] {processor.peakL = 0; processor.peakR = 0;};
 
 	// Grafica de Espectro de Frecuencia
-	frequencySpectrum.reset(new FrequencySpectrumClass());
-	addAndMakeVisible(frequencySpectrum.get());
+	addAndMakeVisible(&spectrumMagnitude);
 
 	// Medidor
 	leftMeter.reset(new Meter());
@@ -85,7 +84,7 @@ CoronameterAudioProcessorEditor::CoronameterAudioProcessorEditor (CoronameterAud
     // editor's size to whatever you need it to be.
 	setSize(1000, 700);
 
-	frequencySpectrum->setBounds(0, 0, 700, 300);
+	spectrumMagnitude.setBounds(0, 0, 700, 300);
 	// Label
 	RMSLabel->setBounds(700, 0, 300, 50);
 	peakLabel->setBounds(700, 50, 300, 50);
@@ -123,6 +122,12 @@ void CoronameterAudioProcessorEditor::timerCallback()
 
 	leftPeak->setAmp(processor.peakL);
 	rightPeak->setAmp(processor.peakR);
+
+	if (processor.lleno)
+	{
+		spectrumMagnitude.receiveAndProcess(processor.bufferC.getRawDataPointer());
+		processor.lleno = false;
+	}
 
 	peakLabel->setText("PeakL :" + peakL + " dB " + "peakR: " + peakR + " dB", dontSendNotification);
 	RMSLabel->setText("RMSL :" + RMSL + " dB " + "RMSR: " + RMSR + " dB", dontSendNotification);

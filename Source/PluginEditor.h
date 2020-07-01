@@ -14,6 +14,7 @@
 #include "PluginProcessor.h"
 #include "FrequencySpectrumClass.h"
 #include "Meter.h"
+#include "SpectrumClass.h"
 
 //==============================================================================
 /**
@@ -38,6 +39,7 @@ private:
 	std::unique_ptr<TextButton> actualizaBoton;
 	std::unique_ptr<Meter> leftMeter, rightMeter, leftPeak, rightPeak;
 	std::unique_ptr<Slider> peakTime, RMSTime;
+	SpectrumClass spectrumMagnitude;
     CoronameterAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (CoronameterAudioProcessorEditor)

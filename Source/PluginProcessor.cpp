@@ -27,6 +27,10 @@ CoronameterAudioProcessor::CoronameterAudioProcessor()
 	peakL = 0;
 	peakR = 0;
 	hold = 0.70;
+	lleno = false;
+	bufferC.resize(2048);
+	zeromem(bufferC.getRawDataPointer(), sizeof(float) * 2048);
+	cont = 0;
 }
 
 CoronameterAudioProcessor::~CoronameterAudioProcessor()
@@ -150,6 +154,14 @@ void CoronameterAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiBu
 			if (channel == 0)
 			{
 				RMSL.setData(channelData[sample]);
+
+				bufferC.set(cont, channelData[sample]);
+
+				if (cont++ >= 2048)
+				{
+					lleno = true;
+					cont = 0;
+				}
 			}
 			else if (channel == 1)
 			{

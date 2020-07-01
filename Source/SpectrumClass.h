@@ -19,8 +19,8 @@ public:
 		FFTProcessor(order), window(samples, dsp::WindowingFunction<float>::WindowingMethod::hamming),
 		bufferSize(samples)
 	{
-		data = new float[samples * 2];
-		zeromem(data, sizeof(float) * samples * 2);
+		data.reset (new float[samples * 2]);
+		zeromem(data.get(), sizeof(float) * samples * 2);
 	}
 
 	~SpectrumClass()
@@ -30,21 +30,19 @@ public:
 
 	void receiveAndProcess(float* buffer)
 	{
-		memcpy(data, buffer, sizeof(float) * bufferSize);
+		memcpy(data.get(), buffer, sizeof(float) * bufferSize);
 
-		window.multiplyWithWindowingTable(data, bufferSize);
-		FFTProcessor.performFrequencyOnlyForwardTransform(data);
+		window.multiplyWithWindowingTable(data.get(), bufferSize);
+		FFTProcessor.performFrequencyOnlyForwardTransform(data.get());
 
-		for (auto i = 0; i < bufferSize; ++i)
-		{
-			data[i] /= (bufferSize / 2);
-		}
+		FloatVectorOperations::multiply (data.get(), (1 / (float)(bufferSize / 2)), bufferSize);
 
 		repaint();
 	}
 
 	void paint(Graphics& g) override
 	{
+		g.fillAll(Colour(Colours::grey));
 		Path magnitude;
 
 		magnitude.startNewSubPath(0, getHeight());
@@ -52,11 +50,13 @@ public:
 		float min = -80;
 		float max = 0;
 
-		float step = getWidth() / (bufferSize / 2);
+		float step = getWidth() / (float)(bufferSize / 2);
+
 
 		for (auto i = 0; i < floor(bufferSize / 2); ++i)
 		{
 			int posX = (log10(step * i) / log10(getWidth())) * (getWidth() - 1);
+
 			posX = posX < 0 ? 0 : posX;
 
 			float valueY = (1 - (jlimit(min, max, Decibels::gainToDecibels(data[i])) / min)) * getHeight();
@@ -70,7 +70,7 @@ public:
 
 private:
 	int bufferSize;
-	float* data;
+	std::unique_ptr<float[]> data;
 	dsp::FFT FFTProcessor;
 	dsp::WindowingFunction<float> window;
 };
